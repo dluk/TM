@@ -1,0 +1,25 @@
+﻿array string[3] eilutes;
+eilutes[0] = “abcd”;
+read eilutes[1];
+function konkatenacija returns string(string a, string b)
+{
+   string rez;
+   rez = a & b;
+   return rez;
+};
+eilutes[2] = konkatenacija(eilutes[0], eilutes[1]);
+print eilutes[2];
+function faktorialas returns int(int skaicius)
+{
+   int i;
+   int rez;
+   rez = 1;
+   for(i = 2; i<=skaicius; 1)
+   {
+      rez = rez * i;
+   }
+   return rez;
+}
+int sk;
+sk = faktorialas(5);
+print sk;

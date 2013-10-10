@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using LeksinisAnalizatorius;
 
 namespace TransliavimoMetodai
 {
@@ -17,6 +18,8 @@ namespace TransliavimoMetodai
         {
             InitializeComponent();
             openFileDialog1.Multiselect = false;
+            string[] lines = File.ReadAllLines(Path.GetFullPath("../../")+"/test.txt", Encoding.UTF8);
+            richTextBox1.Text = String.Join("\r\n", lines);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -41,6 +44,13 @@ namespace TransliavimoMetodai
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox2.Text = "";
+            var LA = new Analizatorius(richTextBox1.Text);
+            richTextBox2.Text = LA.KitaLitera();
         }
     }
 }

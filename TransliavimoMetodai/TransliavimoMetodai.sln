@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransliavimoMetodai", "TransliavimoMetodai\TransliavimoMetodai.csproj", "{73308636-105E-4169-942A-D1993EE4BD08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeksinisAnalizatorius", "LeksinisAnalizatorius\LeksinisAnalizatorius.csproj", "{FFC7B266-0D43-4F43-93B7-E486B9BE58BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{73308636-105E-4169-942A-D1993EE4BD08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73308636-105E-4169-942A-D1993EE4BD08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73308636-105E-4169-942A-D1993EE4BD08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFC7B266-0D43-4F43-93B7-E486B9BE58BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFC7B266-0D43-4F43-93B7-E486B9BE58BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFC7B266-0D43-4F43-93B7-E486B9BE58BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFC7B266-0D43-4F43-93B7-E486B9BE58BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
