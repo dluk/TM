@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using LeksinisAnalizatorius;
+using TM.LeksinisAnalizatorius;
 
 namespace TransliavimoMetodai
 {
@@ -49,8 +44,12 @@ namespace TransliavimoMetodai
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBox2.Text = "";
-            var LA = new Analizatorius(richTextBox1.Text);
-            richTextBox2.Text = LA.KitaLitera();
+            var LA = new LeksinisAnalizatorius(richTextBox1.Text, null, 0);
+            if (LA.Analizuoti())
+            {
+                richTextBox2.Text = LA.ToString();
+            }
+            
         }
     }
 }
