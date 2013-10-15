@@ -44,7 +44,7 @@ namespace TransliavimoMetodai
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBox2.Text = "";
-            var LA = new LeksinisAnalizatorius(richTextBox1.Text, null, 0);
+            var LA = new LeksinisAnalizatorius(richTextBox1.Text);
             if (LA.Analizuoti())
             {
                 richTextBox2.Text = LA.ToString();

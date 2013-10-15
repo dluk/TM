@@ -15,7 +15,12 @@ namespace TM.LeksinisAnalizatorius
         LentelesLeksema Analize(LeksinisAnalizatorius analizatorius);
     }
 
-    #region operatoriai
+    public static class SystemKeywords
+    {
+        public static List<string> Vardai = new List<string>() { "array", "string", "int", "return", "begin", "end", "function", "and", "or", "while", "if", "else", "forward", "for", "print", "read" };
+    }
+
+    #region skiriamieji
     public class Pliusiukas : ILeksema
     {
         public string Pavadinimas { get { return "pliusiukas"; } }
@@ -29,7 +34,6 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, "+");
         }
     }
-
     public class Daugiau : ILeksema
     {
         public string Pavadinimas { get { return "Daugiau"; } }
@@ -40,10 +44,14 @@ namespace TM.LeksinisAnalizatorius
         }
         public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
         {
+            if (analizatorius.Peek() && analizatorius.NextChar() == '=')
+            {
+                analizatorius.Index++;
+                return new LentelesLeksema("DaugiauLygu", ">=");
+            }
             return new LentelesLeksema(Pavadinimas, ">");
         }
     }
-
     public class Maziau : ILeksema
     {
         public string Pavadinimas { get { return "Maziau"; } }
@@ -54,10 +62,14 @@ namespace TM.LeksinisAnalizatorius
         }
         public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
         {
+            if (analizatorius.Peek() && analizatorius.NextChar() == '=')
+            {
+                analizatorius.Index++;
+                return new LentelesLeksema("DaugiauLygu", "<=");
+            }
             return new LentelesLeksema(Pavadinimas, "<");
         }
     }
-
     public class Lygu : ILeksema
     {
         public string Pavadinimas { get { return "Lygu"; } }
@@ -71,7 +83,6 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, "=");
         }
     }
-
     public class Minusiukas : ILeksema
     {
         public string Pavadinimas { get { return "Minusiukas"; } }
@@ -82,6 +93,12 @@ namespace TM.LeksinisAnalizatorius
         }
         public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
         {
+            if (analizatorius.Peek() && new Skaicius().Tinka(analizatorius.NextChar()))
+            {
+                analizatorius.Zodis = "-";
+                analizatorius.Index++;
+                return new Skaicius().Analize(analizatorius);
+            }
             return new LentelesLeksema(Pavadinimas, "-");
         }
     }
@@ -98,9 +115,19 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, "*");
         }
     }
-    #endregion
+    public class Kablelis : ILeksema
+    {
+        public string Pavadinimas { get { return "Kablelis"; } }
 
-    #region skliaustai
+        public bool Tinka(char charas)
+        {
+            return charas == ',';
+        }
+        public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
+        {
+            return new LentelesLeksema(Pavadinimas, ",");
+        }
+    }
     public class KairysSkliaustas : ILeksema
     {
         public string Pavadinimas { get { return "KairysSkliaustas"; } }
@@ -114,7 +141,6 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, "(");
         }
     }
-
     public class DesinysSkliaustas : ILeksema
     {
         public string Pavadinimas { get { return "DesinysSkliaustas"; } }
@@ -128,7 +154,6 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, ")");
         }
     }
-
     public class Kabliataskis : ILeksema
     {
         public string Pavadinimas { get { return "Kabliataskis"; } }
@@ -142,7 +167,66 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, ";");
         }
     }
+    public class KairysRiestinisSkliaustas : ILeksema
+    {
+        public string Pavadinimas { get { return "KairysRiestinisSkliaustas"; } }
 
+        public bool Tinka(char charas)
+        {
+            return charas == '{';
+        }
+        public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
+        {
+            return new LentelesLeksema(Pavadinimas, "{");
+        }
+    }
+    public class DesinysRiestinisSkliaustas : ILeksema
+    {
+        public string Pavadinimas { get { return "DesinysRiestinisSkliaustas"; } }
+
+        public bool Tinka(char charas)
+        {
+            return charas == '}';
+        }
+        public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
+        {
+            return new LentelesLeksema(Pavadinimas, "}");
+        }
+    }
+    public class Konkatenacija : ILeksema
+    {
+        public string Pavadinimas { get { return "Konkatenacija"; } }
+
+        public bool Tinka(char charas)
+        {
+            return charas == '&';
+        }
+        public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
+        {
+            return new LentelesLeksema(Pavadinimas, "&");
+        }
+    }
+    public class Nelygu : ILeksema
+    {
+        public string Pavadinimas { get { return "Nelygu"; } }
+
+        public bool Tinka(char charas)
+        {
+            return charas == '!';
+        }
+        public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
+        {
+            if (analizatorius.Peek() && analizatorius.NextChar() == '=')
+            {
+                analizatorius.Index++;
+                return new LentelesLeksema(Pavadinimas, "!=");
+            }
+            else
+            {
+                return  new LentelesLeksema("klaida", "!");
+            }
+        }
+    }
     public class KairysLauztinisSkliaustas : ILeksema
     {
         public string Pavadinimas { get { return "KairysLauztinisSkliaustas"; } }
@@ -156,7 +240,32 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, "[");
         }
     }
+    public class Tarpas : ILeksema
+    {
+        public string Pavadinimas { get { return " "; } }
 
+        public bool Tinka(char charas)
+        {
+            return charas == ' ';
+        }
+        public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
+        {
+            return null;
+        }
+    }
+    public class NaujaEilute : ILeksema
+    {
+        public string Pavadinimas { get { return " "; } }
+
+        public bool Tinka(char charas)
+        {
+            return charas == '\n';
+        }
+        public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
+        {
+            return null;
+        }
+    }
     public class DesinysLauztinisSkliaustas : ILeksema
     {
         public string Pavadinimas { get { return "DesinysLauztinisSkliaustas"; } }
@@ -170,15 +279,54 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, "]");
         }
     }
+    public class Komentaras : ILeksema
+    {
+        public string Pavadinimas { get { return ""; } }
+        public bool Tinka(char charas)
+        {
+            return charas == '/';
+        }
+
+        public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
+        {
+            bool rado = false;
+            string zodis = analizatorius.Programa[analizatorius.Index].ToString();
+            if (analizatorius.Peek() &&
+                analizatorius.NextChar() == '*')
+            {
+                analizatorius.Index++;
+                while (analizatorius.Index < analizatorius.Programa.Count())
+                {
+                    analizatorius.Simbolis = analizatorius.Programa[analizatorius.Index];
+                    zodis += analizatorius.Simbolis;
+
+                    if (analizatorius.Simbolis == '*')
+                    {
+                        if (analizatorius.Peek() &&
+                            analizatorius.NextChar() == '/')
+                        {
+                            rado = true;
+                            analizatorius.Index++;
+                            zodis += analizatorius.Programa[analizatorius.Index];
+                            break;
+                        }
+                    }
+                    analizatorius.Index++;
+                }
+                if (!rado)
+                    return new LentelesLeksema("klaida", zodis);
+                return new LentelesLeksema("komentaras", zodis);
+            }
+            return new LentelesLeksema("klaida", zodis);
+
+        }
+    }
     #endregion
 
-    #region sisteminiai zodziai 
-
-    #endregion
-
+    #region leksemos kurios nelaikomos skirtuku
     public class PavadinimasLeksema : ILeksema
     {
-        public string Pavadinimas { get { return "PavadinimasLeksema"; } }
+        public string Pavadinimas { get { return "identifikatorius"; } }
 
         public bool Tinka(char charas)
         {
@@ -186,9 +334,6 @@ namespace TM.LeksinisAnalizatorius
         }
         public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
         {
-            bool error = false;
-            bool rado = false;
-            //analizatorius.Zodis += analizatorius.Simbolis;
             while (analizatorius.Index < analizatorius.Programa.Count() )
             {
                 analizatorius.Simbolis = analizatorius.Programa[analizatorius.Index];
@@ -198,29 +343,26 @@ namespace TM.LeksinisAnalizatorius
                 }
                 else
                 {
-                    error = true;
+                    analizatorius.Index--;
                     break;
                 }
-                if (analizatorius.Index + 1 < analizatorius.Programa.Count() &&
-                    (analizatorius.SkiriamosiosLeksemos.Any(x => x.Tinka(analizatorius.Programa[analizatorius.Index + 1])) ||
-                    analizatorius.Programa[analizatorius.Index + 1] == ' ' || analizatorius.Programa[analizatorius.Index + 1] == '\n'))
+                if (analizatorius.Peek() &&
+                    (analizatorius.SkiriamosiosLeksemos.Any(x => x.Tinka(analizatorius.NextChar()))))
                 {
-                    rado = true;
+                   
                     break;
                 }
                 
                 analizatorius.Index++;
 
             }
-            if (analizatorius.Index == analizatorius.Programa.Count())
-                rado = true;
-
-            if (!rado) error = true;
-            return error ? null : new LentelesLeksema("pavadinimasLeksema", analizatorius.Zodis);
+           
+            if(SystemKeywords.Vardai.Contains(analizatorius.Zodis))
+                return new LentelesLeksema("sisteminisZodis", analizatorius.Zodis);
+            return new LentelesLeksema(Pavadinimas, analizatorius.Zodis);
             
         }
     }
-
     public class Skaicius : ILeksema
     {
         public string Pavadinimas { get { return "skaicius"; } }
@@ -232,7 +374,7 @@ namespace TM.LeksinisAnalizatorius
         {
             bool error = false;
             bool rado = false;
-            //analizatorius.Zodis += analizatorius.Simbolis;
+            
             while (analizatorius.Index < analizatorius.Programa.Count())
             {
                 analizatorius.Simbolis = analizatorius.Programa[analizatorius.Index];
@@ -244,13 +386,10 @@ namespace TM.LeksinisAnalizatorius
                 else
                 {
                     error = true;
-                    break;
+                    analizatorius.Zodis += analizatorius.Simbolis;
+                 
                 }
-                if (analizatorius.Index + 1 < analizatorius.Programa.Count() &&
-                    (analizatorius.SkiriamosiosLeksemos.Any(
-                        x => x.Tinka(analizatorius.Programa[analizatorius.Index + 1])) ||
-                     analizatorius.Programa[analizatorius.Index + 1] == ' ' ||
-                     analizatorius.Programa[analizatorius.Index + 1] == '\n'))
+                if (analizatorius.Peek() && analizatorius.SkiriamosiosLeksemos.Any(x => x.Tinka(analizatorius.NextChar())))
                 {
                     rado = true;
                     break;
@@ -263,10 +402,9 @@ namespace TM.LeksinisAnalizatorius
                 rado = true;
 
             if (!rado) error = true;
-            return error ? null : new LentelesLeksema("skaicius", analizatorius.Zodis);
+            return error ? new LentelesLeksema("klaida", analizatorius.Zodis) : new LentelesLeksema(Pavadinimas, analizatorius.Zodis);
         }
     }
-
     public class Kabutes : ILeksema
     {
         public string Pavadinimas { get { return "Konstanta"; } }
@@ -279,12 +417,12 @@ namespace TM.LeksinisAnalizatorius
         {
             bool error = false;
             bool rado = false;
-            //analizatorius.Zodis += analizatorius.Simbolis;
+           
             analizatorius.Index++;
             while (analizatorius.Index < analizatorius.Programa.Count())
             {
                 analizatorius.Simbolis = analizatorius.Programa[analizatorius.Index];
-                if (Regex.IsMatch(analizatorius.Simbolis.ToString(), "[a-zA-Z0-9]"))
+                if (Regex.IsMatch(analizatorius.Simbolis.ToString(), "[a-zA-Z0-9]|\\s"))
                 {
                     analizatorius.Zodis += analizatorius.Simbolis;
                 }
@@ -293,8 +431,8 @@ namespace TM.LeksinisAnalizatorius
                     analizatorius.Zodis += analizatorius.Simbolis;
                     error = true;
                 }
-                if (analizatorius.Index + 1 < analizatorius.Programa.Count() &&
-                     analizatorius.Programa[analizatorius.Index + 1] == '\"')
+                if (analizatorius.Peek() &&
+                     analizatorius.NextChar() == '\"')
                 {
                     rado = true;
                     analizatorius.Index++;
@@ -305,8 +443,9 @@ namespace TM.LeksinisAnalizatorius
             }
             
             if (!rado) error = true;
-            return error? null : new LentelesLeksema("konstanta", analizatorius.Zodis);
+            return error? new LentelesLeksema("klaida", analizatorius.Zodis) : new LentelesLeksema(Pavadinimas, analizatorius.Zodis);
         }
     }
+    #endregion
 
 }

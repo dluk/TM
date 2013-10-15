@@ -34,11 +34,11 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AnalyzeStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.AnalyzeStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -68,28 +68,35 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
             this.openToolStripMenuItem.Text = "Open..";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(117, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // AnalyzeStripMenuItem
+            // 
+            this.AnalyzeStripMenuItem.Name = "AnalyzeStripMenuItem";
+            this.AnalyzeStripMenuItem.Size = new System.Drawing.Size(73, 24);
+            this.AnalyzeStripMenuItem.Text = "Analyze";
+            this.AnalyzeStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 
@@ -106,6 +113,15 @@
             this.panel1.Size = new System.Drawing.Size(1347, 663);
             this.panel1.TabIndex = 1;
             // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Location = new System.Drawing.Point(855, 3);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(492, 657);
+            this.richTextBox2.TabIndex = 1;
+            this.richTextBox2.Text = "";
+            this.richTextBox2.ZoomFactor = 1.3F;
+            // 
             // richTextBox1
             // 
             this.richTextBox1.CausesValidation = false;
@@ -116,21 +132,6 @@
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             this.richTextBox1.ZoomFactor = 1.5F;
-            // 
-            // AnalyzeStripMenuItem
-            // 
-            this.AnalyzeStripMenuItem.Name = "AnalyzeStripMenuItem";
-            this.AnalyzeStripMenuItem.Size = new System.Drawing.Size(73, 24);
-            this.AnalyzeStripMenuItem.Text = "Analyze";
-            this.AnalyzeStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
-            // 
-            // richTextBox2
-            // 
-            this.richTextBox2.Location = new System.Drawing.Point(855, 3);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(492, 657);
-            this.richTextBox2.TabIndex = 1;
-            this.richTextBox2.Text = "";
             // 
             // GUI
             // 

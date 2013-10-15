@@ -19,6 +19,7 @@ namespace TM.LeksinisAnalizatorius
 
         public List<ILeksema> SkiriamosiosLeksemos = new List<ILeksema>()
         {
+            new Komentaras(),
             new Pliusiukas(),
             new Minusiukas(),
             new Kabliataskis(),
@@ -29,7 +30,14 @@ namespace TM.LeksinisAnalizatorius
             new Daugyba(),
             new Daugiau(),
             new Lygu(),
-            new Maziau()
+            new Maziau(),
+            new Tarpas(),
+            new NaujaEilute(),
+            new Kablelis(),
+            new KairysRiestinisSkliaustas(),
+            new DesinysRiestinisSkliaustas(),
+            new Konkatenacija(),
+            new Nelygu()
         }; 
 
         public string Programa;
@@ -37,71 +45,63 @@ namespace TM.LeksinisAnalizatorius
 
         public char Simbolis;
         public string Zodis = "";
-        private bool kabutese = false;
-        public StringReader Reader;
         public int Index = 0;
         
-        public LeksinisAnalizatorius(string programa, List<ILeksema> leksemos, int indeksas=0)
+        public LeksinisAnalizatorius(string programa)
         {
-            Programa = programa;//.Replace("\r", " ").Replace("\n", " ");
-            if (leksemos != null)
-                Leksemos = leksemos;
-            Index = indeksas;
+            Programa = programa;
         }
 
         public bool Analizuoti()
         {
-            Reader = new StringReader(Programa);
-            using (Reader)
+            
+            while (Index<Programa.Count())
             {
-                while (Index<Programa.Count())
+                Simbolis = Programa[Index];
+                var rado = false;
+                foreach (ILeksema leksema in SkiriamosiosLeksemos.Union(Leksemos))
                 {
-                    Simbolis = Programa[Index];
-                    foreach (ILeksema leksema in SkiriamosiosLeksemos.Union(Leksemos))
+                    if (leksema.Tinka(Simbolis))
                     {
-                        if (leksema.Tinka(Simbolis))
-                        {
-                            var analize = leksema.Analize(this);
-                            if(analize != null)
-                                VarduLentele.Add(analize);
-                            else VarduLentele.Add(new LentelesLeksema("klaida", Zodis));
-                            Zodis = "";
-                            break;
-
-                        }
-                           
+                        rado = true;
+                        var analize = leksema.Analize(this);
+                        if(analize != null)
+                            VarduLentele.Add(analize);
+                        Zodis = "";
+                        break;
                     }
-                    Index++;
+                      
                 }
-                //pridetiILentele(_zodis);
+                if(!rado)
+                    VarduLentele.Add(new LentelesLeksema("klaida", Simbolis.ToString()));
+                Index++;
             }
             
             return true;
         }
 
+        #region helper metodai
         public override string ToString()
         {
             string rez = "";
             foreach (LentelesLeksema leksema in VarduLentele)
             {
-                rez += leksema.Pavadinimas + ", " + leksema.Reiksme + "\r\n";
+                rez += string.Format("{{ {0}, {1} }}\r\n", leksema.Pavadinimas, leksema.Reiksme);
             }
             return rez;
         }
 
-        //private void pridetiILentele(string reiksme)
-        //{
-        //    if (!string.IsNullOrEmpty(reiksme))
-        //    {
-        //        switch (reiksme)
-        //        {
-        //            case ";":
-        //                VarduLentele.Add(new LentelesLeksema("kabliataškis", ";"));
-        //        }
-        //        VarduLentele.Add(new LentelesLeksema(pav, reiksme));
-        //        Zodis = "";
-        //    }
-        //}
+        public bool Peek()
+        {
+            return (Index + 1 < Programa.Count());
+        }
+
+        public char NextChar()
+        {
+            return (Programa[Index + 1]);
+
+        }
+        #endregion
 
     }
 }
