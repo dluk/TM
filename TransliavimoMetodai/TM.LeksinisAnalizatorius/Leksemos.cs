@@ -186,67 +186,38 @@ namespace TM.LeksinisAnalizatorius
         }
         public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
         {
-            bool rado = false;
             bool error = false;
-            analizatorius.Zodis += analizatorius.Simbolis[0];
-            while (analizatorius.Reader.Read(analizatorius.Simbolis, 0, 1) > 0)
+            bool rado = false;
+            //analizatorius.Zodis += analizatorius.Simbolis;
+            while (analizatorius.Index < analizatorius.Programa.Count() )
             {
-                if (analizatorius.Simbolis[0] == ' ' || analizatorius.Simbolis[0] == '\n')
+                analizatorius.Simbolis = analizatorius.Programa[analizatorius.Index];
+                if (Regex.IsMatch(analizatorius.Simbolis.ToString(), "[a-zA-Z0-9]"))
+                {
+                    analizatorius.Zodis += analizatorius.Simbolis;
+                }
+                else
+                {
+                    error = true;
+                    break;
+                }
+                if (analizatorius.Index + 1 < analizatorius.Programa.Count() &&
+                    (analizatorius.SkiriamosiosLeksemos.Any(x => x.Tinka(analizatorius.Programa[analizatorius.Index + 1])) ||
+                    analizatorius.Programa[analizatorius.Index + 1] == ' ' || analizatorius.Programa[analizatorius.Index + 1] == '\n'))
                 {
                     rado = true;
                     break;
                 }
-                else
-                {
-                    if (Regex.IsMatch(analizatorius.Simbolis[0].ToString(), "[a-zA-Z0-9]"))
-                    {
-                        analizatorius.Zodis += analizatorius.Simbolis[0];
-                    }
-                    else
-                    {
-                        var first = analizatorius.Leksemos.FirstOrDefault(x => x.Tinka(analizatorius.Simbolis[0]));
-                        if (first != null)
-                        {
-                            if (error)
-                            {
-                                analizatorius.VarduLentele.Add(new LentelesLeksema("error3", analizatorius.Zodis));
-                            }
-                            else
-                            {
-                            //    if(analizatorius.Zodis == "array")
-                            //        analizatorius.VarduLentele.Add(new LentelesLeksema("Masyvas","array"));
-                            //    else if(analizatorius.Zodis == "string")
-                            //        analizatorius.VarduLentele.Add(new LentelesLeksema("Eilute", "string"));
-                            //    else if(analizatorius.Zodis == "begin")
-                            //        analizatorius.VarduLentele.Add(new LentelesLeksema("begin", "begin"));
-                            //    else if(analizatorius.Zodis == "end")
-                            //        analizatorius.VarduLentele.Add(new LentelesLeksema("end", "end"));
-                            //    else
-                                    analizatorius.VarduLentele.Add(new LentelesLeksema(Pavadinimas, analizatorius.Zodis));
-                            }
-                            analizatorius.VarduLentele.Add(first.Analize(analizatorius));
-                            return null;
-                        }
-                        else
-                        {
-                            error = true;
-
-                        }
-                        
-                    }
-
-                }
+                
+                analizatorius.Index++;
 
             }
-            if (rado)
-            {
-                if (error) return new LentelesLeksema("error", analizatorius.Zodis);
-                return new LentelesLeksema(Pavadinimas, analizatorius.Zodis);
-            }
-            else
-            {
-                return null;
-            }
+            if (analizatorius.Index == analizatorius.Programa.Count())
+                rado = true;
+
+            if (!rado) error = true;
+            return error ? null : new LentelesLeksema("pavadinimasLeksema", analizatorius.Zodis);
+            
         }
     }
 
@@ -259,63 +230,40 @@ namespace TM.LeksinisAnalizatorius
         }
         public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
         {
-            bool rado = false;
             bool error = false;
-            analizatorius.Zodis += analizatorius.Simbolis[0];
-            while (analizatorius.Reader.Read(analizatorius.Simbolis, 0, 1) > 0)
+            bool rado = false;
+            //analizatorius.Zodis += analizatorius.Simbolis;
+            while (analizatorius.Index < analizatorius.Programa.Count())
             {
-                if (analizatorius.Simbolis[0] == ' ' || analizatorius.Simbolis[0] == '\n')
+                analizatorius.Simbolis = analizatorius.Programa[analizatorius.Index];
+                int sk;
+                if (int.TryParse(analizatorius.Simbolis.ToString(), out sk))
+                {
+                    analizatorius.Zodis += analizatorius.Simbolis;
+                }
+                else
+                {
+                    error = true;
+                    break;
+                }
+                if (analizatorius.Index + 1 < analizatorius.Programa.Count() &&
+                    (analizatorius.SkiriamosiosLeksemos.Any(
+                        x => x.Tinka(analizatorius.Programa[analizatorius.Index + 1])) ||
+                     analizatorius.Programa[analizatorius.Index + 1] == ' ' ||
+                     analizatorius.Programa[analizatorius.Index + 1] == '\n'))
                 {
                     rado = true;
                     break;
                 }
-                else
-                {
-                    int sk;
-                    if (int.TryParse(analizatorius.Simbolis[0].ToString(), out sk))
-                    {
-                        analizatorius.Zodis += analizatorius.Simbolis[0];
-                    }
-                    else if (Regex.IsMatch(analizatorius.Simbolis[0].ToString(), "[a-zA-Z]"))
-                    {
-                        analizatorius.Zodis += analizatorius.Simbolis[0];
-                        error = true;
-                    }
-                    else
-                    {
-                        var first = analizatorius.Leksemos.FirstOrDefault(x => x.Tinka(analizatorius.Simbolis[0]));
-                        if (first != null)
-                        {
-                            if (!error) 
-                                analizatorius.VarduLentele.Add(new LentelesLeksema(Pavadinimas, analizatorius.Zodis));
-                            else
-                            {
-                                analizatorius.VarduLentele.Add(new LentelesLeksema("error2", analizatorius.Zodis));
-                            }
-                            analizatorius.VarduLentele.Add(first.Analize(analizatorius));
-                            return null;
-                        }
-                        else
-                        {
-                            error = true;
-
-                        }
-                        
-
-                    }
-                   
-                }
-
+                    
+                analizatorius.Index++;
+                
             }
-            if (rado)
-            {
-                if (error) return new LentelesLeksema("error", analizatorius.Zodis);
-                return new LentelesLeksema(Pavadinimas, analizatorius.Zodis);
-            }
-            else
-            {
-                return null;
-            }
+            if (analizatorius.Index == analizatorius.Programa.Count())
+                rado = true;
+
+            if (!rado) error = true;
+            return error ? null : new LentelesLeksema("skaicius", analizatorius.Zodis);
         }
     }
 
@@ -324,41 +272,40 @@ namespace TM.LeksinisAnalizatorius
         public string Pavadinimas { get { return "Konstanta"; } }
         public bool Tinka(char charas)
         {
-            return charas == '"';
+            return charas == '\"';
         }
 
         public LentelesLeksema Analize(LeksinisAnalizatorius analizatorius)
         {
+            bool error = false;
             bool rado = false;
-            bool blogas = false;
-            while (analizatorius.Reader.Read(analizatorius.Simbolis, 0, 1) > 0)
+            //analizatorius.Zodis += analizatorius.Simbolis;
+            analizatorius.Index++;
+            while (analizatorius.Index < analizatorius.Programa.Count())
             {
-                if (analizatorius.Simbolis[0] == '"')
+                analizatorius.Simbolis = analizatorius.Programa[analizatorius.Index];
+                if (Regex.IsMatch(analizatorius.Simbolis.ToString(), "[a-zA-Z0-9]"))
                 {
-                    rado = true;
-                    break;
+                    analizatorius.Zodis += analizatorius.Simbolis;
                 }
                 else
                 {
-                    if (Regex.IsMatch(analizatorius.Simbolis[0].ToString(), "[0-9a-zA-Z]|\\s"))
-                        analizatorius.Zodis += analizatorius.Simbolis[0];
-                    else
-                    {
-                        blogas = true;
-                    }
+                    analizatorius.Zodis += analizatorius.Simbolis;
+                    error = true;
+                }
+                if (analizatorius.Index + 1 < analizatorius.Programa.Count() &&
+                     analizatorius.Programa[analizatorius.Index + 1] == '\"')
+                {
+                    rado = true;
+                    analizatorius.Index++;
+                    break;
                 }
 
+                analizatorius.Index++;
             }
-            if (rado)
-            {
-                if (blogas) return new LentelesLeksema("error", analizatorius.Zodis);
-                return new LentelesLeksema(Pavadinimas, analizatorius.Zodis);
-            }
-            else
-            {
-                return null;
-            }
-
+            
+            if (!rado) error = true;
+            return error? null : new LentelesLeksema("konstanta", analizatorius.Zodis);
         }
     }
 

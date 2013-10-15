@@ -13,22 +13,29 @@ namespace TM.LeksinisAnalizatorius
         public List<ILeksema> Leksemos = new List<ILeksema>()
         {
             new Kabutes(),
-            new Pliusiukas(),
             new Skaicius(),
-            new KairysLauztinisSkliaustas(),
-            new DesinysLauztinisSkliaustas(),
-            new Minusiukas(),
-            new Daugyba(),
-            new KairysSkliaustas(),
-            new DesinysSkliaustas(),
-            new PavadinimasLeksema(),
-            new Kabliataskis()
+            new PavadinimasLeksema()
         };
 
-        public string Programa;
-        public List<LentelesLeksema> VarduLentele = new List<LentelesLeksema>(); 
+        public List<ILeksema> SkiriamosiosLeksemos = new List<ILeksema>()
+        {
+            new Pliusiukas(),
+            new Minusiukas(),
+            new Kabliataskis(),
+            new KairysLauztinisSkliaustas(),
+            new KairysSkliaustas(),
+            new DesinysLauztinisSkliaustas(),
+            new DesinysSkliaustas(),
+            new Daugyba(),
+            new Daugiau(),
+            new Lygu(),
+            new Maziau()
+        }; 
 
-        public char[] Simbolis = new char[1]{' '};
+        public string Programa;
+        public List<LentelesLeksema> VarduLentele = new List<LentelesLeksema>();
+
+        public char Simbolis;
         public string Zodis = "";
         private bool kabutese = false;
         public StringReader Reader;
@@ -47,22 +54,24 @@ namespace TM.LeksinisAnalizatorius
             Reader = new StringReader(Programa);
             using (Reader)
             {
-                while (Reader.Read(Simbolis, 0, 1) > 0)
+                while (Index<Programa.Count())
                 {
-
-                    foreach (ILeksema leksema in Leksemos)
+                    Simbolis = Programa[Index];
+                    foreach (ILeksema leksema in SkiriamosiosLeksemos.Union(Leksemos))
                     {
-                        if (leksema.Tinka(Simbolis[0]))
+                        if (leksema.Tinka(Simbolis))
                         {
                             var analize = leksema.Analize(this);
                             if(analize != null)
                                 VarduLentele.Add(analize);
+                            else VarduLentele.Add(new LentelesLeksema("klaida", Zodis));
                             Zodis = "";
                             break;
 
                         }
                            
                     }
+                    Index++;
                 }
                 //pridetiILentele(_zodis);
             }
