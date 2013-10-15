@@ -51,5 +51,11 @@ namespace TransliavimoMetodai
             }
             
         }
+
+        private void richTextBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.F5)
+                toolsToolStripMenuItem_Click(this, new EventArgs());
+        }
     }
 }
