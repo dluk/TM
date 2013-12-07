@@ -21,7 +21,7 @@ namespace TM.LeksinisAnalizatorius
     }
 
     #region skiriamieji
-    public class Pliusiukas : ILeksema
+    public class Pliusas : ILeksema
     {
         public string Pavadinimas { get { return "pliusiukas"; } }
 
@@ -83,7 +83,7 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, "=");
         }
     }
-    public class Minusiukas : ILeksema
+    public class Minusas : ILeksema
     {
         public string Pavadinimas { get { return "Minusiukas"; } }
 
@@ -324,7 +324,7 @@ namespace TM.LeksinisAnalizatorius
     #endregion
 
     #region leksemos kurios nelaikomos skirtuku
-    public class PavadinimasLeksema : ILeksema
+    public class Identifikatorius : ILeksema
     {
         public string Pavadinimas { get { return "identifikatorius"; } }
 
@@ -346,8 +346,8 @@ namespace TM.LeksinisAnalizatorius
                     analizatorius.Index--;
                     break;
                 }
-                if (analizatorius.Peek() &&
-                    (analizatorius.SkiriamosiosLeksemos.Any(x => x.Tinka(analizatorius.NextChar()))))
+                if (analizatorius.Peek() && 
+                    (analizatorius.SkiriamosiosLeksemos.Any(x => x.Tinka(analizatorius.NextChar()) && x.Pavadinimas !="identifikatorius")))
                 {
                    
                     break;
@@ -417,22 +417,32 @@ namespace TM.LeksinisAnalizatorius
         {
             bool error = false;
             bool rado = false;
+            bool escape = false;
            
             analizatorius.Index++;
             while (analizatorius.Index < analizatorius.Programa.Count())
             {
                 analizatorius.Simbolis = analizatorius.Programa[analizatorius.Index];
-                if (Regex.IsMatch(analizatorius.Simbolis.ToString(), "[a-zA-Z0-9]|\\s"))
-                {
+                if (Regex.IsMatch(analizatorius.Simbolis.ToString(), "[a-zA-Z0-9]|\\s|\""))
+                {   
                     analizatorius.Zodis += analizatorius.Simbolis;
+                    escape = false;
                 }
                 else
                 {
-                    analizatorius.Zodis += analizatorius.Simbolis;
-                    error = true;
+                    if (analizatorius.Simbolis == '\\' &&analizatorius.Peek() &&
+                     analizatorius.NextChar() == '\"')
+                    {
+                        escape = true;
+                    }
+                    else
+                    {
+                        analizatorius.Zodis += analizatorius.Simbolis;
+                        error = true;
+                    }
                 }
                 if (analizatorius.Peek() &&
-                     analizatorius.NextChar() == '\"')
+                     analizatorius.NextChar() == '\"' && !escape)
                 {
                     rado = true;
                     analizatorius.Index++;

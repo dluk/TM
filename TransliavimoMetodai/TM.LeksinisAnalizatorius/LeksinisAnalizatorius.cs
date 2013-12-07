@@ -13,15 +13,16 @@ namespace TM.LeksinisAnalizatorius
         public List<ILeksema> Leksemos = new List<ILeksema>()
         {
             new Kabutes(),
-            new Skaicius(),
-            new PavadinimasLeksema()
+            new Skaicius()
+            
         };
 
         public List<ILeksema> SkiriamosiosLeksemos = new List<ILeksema>()
         {
             new Komentaras(),
-            new Pliusiukas(),
-            new Minusiukas(),
+            new Pliusas(),
+            new Minusas(),
+            new Identifikatorius(),
             new Kabliataskis(),
             new KairysLauztinisSkliaustas(),
             new KairysSkliaustas(),

@@ -37,8 +37,8 @@
             this.AnalyzeStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.VarduLentelesLaukas = new System.Windows.Forms.RichTextBox();
+            this.programosLaukas = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -106,33 +106,33 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.richTextBox2);
-            this.panel1.Controls.Add(this.richTextBox1);
+            this.panel1.Controls.Add(this.VarduLentelesLaukas);
+            this.panel1.Controls.Add(this.programosLaukas);
             this.panel1.Location = new System.Drawing.Point(0, 31);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1347, 663);
             this.panel1.TabIndex = 1;
             // 
-            // richTextBox2
+            // VarduLentelesLaukas
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(855, 3);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(492, 657);
-            this.richTextBox2.TabIndex = 1;
-            this.richTextBox2.Text = "";
-            this.richTextBox2.ZoomFactor = 1.3F;
+            this.VarduLentelesLaukas.Location = new System.Drawing.Point(855, 3);
+            this.VarduLentelesLaukas.Name = "VarduLentelesLaukas";
+            this.VarduLentelesLaukas.Size = new System.Drawing.Size(492, 657);
+            this.VarduLentelesLaukas.TabIndex = 1;
+            this.VarduLentelesLaukas.Text = "";
+            this.VarduLentelesLaukas.ZoomFactor = 1.5F;
             // 
-            // richTextBox1
+            // programosLaukas
             // 
-            this.richTextBox1.CausesValidation = false;
-            this.richTextBox1.DetectUrls = false;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 3);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(849, 660);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.ZoomFactor = 1.5F;
-            this.richTextBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyUp);
+            this.programosLaukas.CausesValidation = false;
+            this.programosLaukas.DetectUrls = false;
+            this.programosLaukas.Location = new System.Drawing.Point(0, 3);
+            this.programosLaukas.Name = "programosLaukas";
+            this.programosLaukas.Size = new System.Drawing.Size(849, 660);
+            this.programosLaukas.TabIndex = 0;
+            this.programosLaukas.Text = "";
+            this.programosLaukas.ZoomFactor = 1.5F;
+            this.programosLaukas.KeyUp += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyUp);
             // 
             // GUI
             // 
@@ -160,12 +160,12 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox programosLaukas;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AnalyzeStripMenuItem;
-        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox VarduLentelesLaukas;
 
 
     }

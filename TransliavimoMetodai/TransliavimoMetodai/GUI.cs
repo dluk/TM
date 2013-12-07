@@ -14,7 +14,7 @@ namespace TransliavimoMetodai
             InitializeComponent();
             openFileDialog1.Multiselect = false;
             string[] lines = File.ReadAllLines(Path.GetFullPath("../../")+"/test.txt", Encoding.UTF8);
-            richTextBox1.Text = String.Join("\r\n", lines);
+            programosLaukas.Text = String.Join("\r\n", lines);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -27,13 +27,13 @@ namespace TransliavimoMetodai
             if (Path.GetExtension(openFileDialog1.FileName) == ".txt")
             {
                 string[] lines = File.ReadAllLines(openFileDialog1.FileName, Encoding.UTF8);
-                richTextBox1.Text = String.Join("\r\n", lines);
+                programosLaukas.Text = String.Join("\r\n", lines);
             }
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            richTextBox1.Text = String.Empty;
+            programosLaukas.Text = String.Empty;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,11 +43,11 @@ namespace TransliavimoMetodai
 
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            richTextBox2.Text = "";
-            var LA = new LeksinisAnalizatorius(richTextBox1.Text);
+            VarduLentelesLaukas.Text = "";
+            var LA = new LeksinisAnalizatorius(programosLaukas.Text);
             if (LA.Analizuoti())
             {
-                richTextBox2.Text = LA.ToString();
+                VarduLentelesLaukas.Text = LA.ToString();
             }
             
         }
