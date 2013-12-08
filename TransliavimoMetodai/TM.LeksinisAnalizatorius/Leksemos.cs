@@ -115,6 +115,7 @@ namespace TM.LeksinisAnalizatorius
             return new LentelesLeksema(Pavadinimas, "*");
         }
     }
+   
     public class Kablelis : ILeksema
     {
         public string Pavadinimas { get { return "Kablelis"; } }
@@ -316,6 +317,10 @@ namespace TM.LeksinisAnalizatorius
                 if (!rado)
                     return new LentelesLeksema("klaida", zodis);
                 return new LentelesLeksema("komentaras", zodis);
+            }
+            else
+            {
+                return new LentelesLeksema("Dalyba", zodis);
             }
             return new LentelesLeksema("klaida", zodis);
 
