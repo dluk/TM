@@ -370,7 +370,7 @@ namespace TM.LeksinisAnalizatorius
     }
     public class Skaicius : ILeksema
     {
-        public string Pavadinimas { get { return "skaicius"; } }
+        public string Pavadinimas { get { return "SveikasSkaicius"; } }
         public bool Tinka(char charas)
         {
             return (Regex.IsMatch(charas.ToString(), "[0-9]"));
@@ -413,7 +413,16 @@ namespace TM.LeksinisAnalizatorius
                 rado = true;
 
             if (!rado) error = true;
-            return error ? new LentelesLeksema("klaida", analizatorius.Zodis) : new LentelesLeksema(Pavadinimas, analizatorius.Zodis);
+            if (error)
+            {
+                return new LentelesLeksema("klaida", analizatorius.Zodis);
+            }
+            else
+            {
+                return dec
+                    ? new LentelesLeksema("DesimtainisSkaicius", analizatorius.Zodis)
+                    : new LentelesLeksema(Pavadinimas, analizatorius.Zodis);
+            }
         }
     }
     public class Kabutes : ILeksema
