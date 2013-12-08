@@ -374,6 +374,7 @@ namespace TM.LeksinisAnalizatorius
         {
             bool error = false;
             bool rado = false;
+            bool dec = false;
             
             while (analizatorius.Index < analizatorius.Programa.Count())
             {
@@ -383,13 +384,18 @@ namespace TM.LeksinisAnalizatorius
                 {
                     analizatorius.Zodis += analizatorius.Simbolis;
                 }
+                else if (analizatorius.Simbolis == '.' && !dec)
+                {
+                    analizatorius.Zodis += analizatorius.Simbolis;
+                    dec = true;
+                }
                 else
                 {
                     error = true;
                     analizatorius.Zodis += analizatorius.Simbolis;
                  
                 }
-                if (analizatorius.Peek() && analizatorius.SkiriamosiosLeksemos.Any(x => x.Tinka(analizatorius.NextChar())))
+                if (analizatorius.Peek() && (analizatorius.SkiriamosiosLeksemos.Any(x => x.Tinka(analizatorius.NextChar())) || dec && analizatorius.NextChar() == '.'))
                 {
                     rado = true;
                     break;
