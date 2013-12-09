@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransliavimoMetodai", "Tran
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TM.LeksinisAnalizatorius", "TM.LeksinisAnalizatorius\TM.LeksinisAnalizatorius.csproj", "{8C6B2644-1386-4CC0-8A7E-01CB83A14A6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TM.SintaksinisAnalizatorius", "ClassLibrary1\TM.SintaksinisAnalizatorius.csproj", "{2661E37A-8D42-49EE-8835-AE1340C139AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{8C6B2644-1386-4CC0-8A7E-01CB83A14A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C6B2644-1386-4CC0-8A7E-01CB83A14A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C6B2644-1386-4CC0-8A7E-01CB83A14A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2661E37A-8D42-49EE-8835-AE1340C139AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2661E37A-8D42-49EE-8835-AE1340C139AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2661E37A-8D42-49EE-8835-AE1340C139AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2661E37A-8D42-49EE-8835-AE1340C139AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
