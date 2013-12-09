@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TM.LeksinisAnalizatorius;
 
@@ -7,6 +8,8 @@ namespace TM.SintaksinisAnalizatorius
     public class SintaksinisAnalizatorius
     {
         public List<LentelesLeksema> VarduLentele;
+        public List<Objektas> SintaksesMedis = new List<Objektas>();
+        public int Indeksas = 0;
 
         public SintaksinisAnalizatorius(List<LentelesLeksema> varduLentele)
         {
@@ -15,10 +18,18 @@ namespace TM.SintaksinisAnalizatorius
 
         public void Analizuoti()
         {
-            if (VarduLentele.First().Reiksme != "begin")
-            {
+            new DeklaravimoAnal().Analyze(this, new Guid());
+        }
 
+        public string PrintMedis()
+        {
+            string rez = "";
+            foreach (Objektas objektas in SintaksesMedis)
+            {
+                rez += string.Format("Id: {0}, pav: {1}, reiksme {2}, tevs: {3}\r\n", objektas.Id, objektas.Tipas,
+                    objektas.Reiksme, objektas.TevoId);
             }
+            return rez;
         }
     }
 

@@ -39,6 +39,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.VarduLentelesLaukas = new System.Windows.Forms.RichTextBox();
             this.programosLaukas = new System.Windows.Forms.RichTextBox();
+            this.SinAnalText = new System.Windows.Forms.RichTextBox();
+            this.analyzeSyntaxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -47,10 +49,11 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.AnalyzeStripMenuItem});
+            this.AnalyzeStripMenuItem,
+            this.analyzeSyntaxToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1347, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1345, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -94,8 +97,8 @@
             // AnalyzeStripMenuItem
             // 
             this.AnalyzeStripMenuItem.Name = "AnalyzeStripMenuItem";
-            this.AnalyzeStripMenuItem.Size = new System.Drawing.Size(73, 24);
-            this.AnalyzeStripMenuItem.Text = "Analyze";
+            this.AnalyzeStripMenuItem.Size = new System.Drawing.Size(99, 24);
+            this.AnalyzeStripMenuItem.Text = "Analyze Lex";
             this.AnalyzeStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
             // 
             // openFileDialog1
@@ -106,6 +109,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.SinAnalText);
             this.panel1.Controls.Add(this.VarduLentelesLaukas);
             this.panel1.Controls.Add(this.programosLaukas);
             this.panel1.Location = new System.Drawing.Point(0, 31);
@@ -115,9 +119,9 @@
             // 
             // VarduLentelesLaukas
             // 
-            this.VarduLentelesLaukas.Location = new System.Drawing.Point(855, 3);
+            this.VarduLentelesLaukas.Location = new System.Drawing.Point(472, 3);
             this.VarduLentelesLaukas.Name = "VarduLentelesLaukas";
-            this.VarduLentelesLaukas.Size = new System.Drawing.Size(492, 657);
+            this.VarduLentelesLaukas.Size = new System.Drawing.Size(364, 657);
             this.VarduLentelesLaukas.TabIndex = 1;
             this.VarduLentelesLaukas.Text = "";
             this.VarduLentelesLaukas.ZoomFactor = 1.5F;
@@ -128,17 +132,32 @@
             this.programosLaukas.DetectUrls = false;
             this.programosLaukas.Location = new System.Drawing.Point(0, 3);
             this.programosLaukas.Name = "programosLaukas";
-            this.programosLaukas.Size = new System.Drawing.Size(849, 660);
+            this.programosLaukas.Size = new System.Drawing.Size(466, 660);
             this.programosLaukas.TabIndex = 0;
             this.programosLaukas.Text = "";
             this.programosLaukas.ZoomFactor = 1.5F;
             this.programosLaukas.KeyUp += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyUp);
             // 
+            // SinAnalText
+            // 
+            this.SinAnalText.Location = new System.Drawing.Point(842, 3);
+            this.SinAnalText.Name = "SinAnalText";
+            this.SinAnalText.Size = new System.Drawing.Size(493, 657);
+            this.SinAnalText.TabIndex = 2;
+            this.SinAnalText.Text = "";
+            // 
+            // analyzeSyntaxToolStripMenuItem
+            // 
+            this.analyzeSyntaxToolStripMenuItem.Name = "analyzeSyntaxToolStripMenuItem";
+            this.analyzeSyntaxToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
+            this.analyzeSyntaxToolStripMenuItem.Text = "Analyze Syntax";
+            this.analyzeSyntaxToolStripMenuItem.Click += new System.EventHandler(this.analyzeSyntaxToolStripMenuItem_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1347, 653);
+            this.ClientSize = new System.Drawing.Size(1345, 701);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -166,6 +185,8 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AnalyzeStripMenuItem;
         private System.Windows.Forms.RichTextBox VarduLentelesLaukas;
+        private System.Windows.Forms.ToolStripMenuItem analyzeSyntaxToolStripMenuItem;
+        private System.Windows.Forms.RichTextBox SinAnalText;
 
 
     }

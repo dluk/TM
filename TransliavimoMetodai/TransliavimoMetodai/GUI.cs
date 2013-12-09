@@ -4,11 +4,13 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using TM.LeksinisAnalizatorius;
+using TM.SintaksinisAnalizatorius;
 
 namespace TransliavimoMetodai
 {
     public partial class GUI : Form
     {
+        private LeksinisAnalizatorius _leksinisAnalizatorius;
         public GUI()
         {
             InitializeComponent();
@@ -44,10 +46,10 @@ namespace TransliavimoMetodai
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             VarduLentelesLaukas.Text = "";
-            var LA = new LeksinisAnalizatorius(programosLaukas.Text);
-            if (LA.Analizuoti())
+            _leksinisAnalizatorius = new LeksinisAnalizatorius(programosLaukas.Text);
+            if (_leksinisAnalizatorius.Analizuoti())
             {
-                VarduLentelesLaukas.Text = LA.ToString();
+                VarduLentelesLaukas.Text = _leksinisAnalizatorius.ToString();
             }
             
         }
@@ -56,6 +58,13 @@ namespace TransliavimoMetodai
         {
             if(e.KeyCode == Keys.F5)
                 toolsToolStripMenuItem_Click(this, new EventArgs());
+        }
+
+        private void analyzeSyntaxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SintaksinisAnalizatorius sintaksinisAnalizatorius = new SintaksinisAnalizatorius(_leksinisAnalizatorius.VarduLentele);
+            sintaksinisAnalizatorius.Analizuoti();
+            SinAnalText.Text = sintaksinisAnalizatorius.PrintMedis();
         }
     }
 }

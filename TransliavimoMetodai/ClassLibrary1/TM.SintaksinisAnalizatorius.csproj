@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LeksemuAnalizatorius.cs" />
+    <Compile Include="Objektas.cs" />
     <Compile Include="SintaksinisAnalizatorius.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

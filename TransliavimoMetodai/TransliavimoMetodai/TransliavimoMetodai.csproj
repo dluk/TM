@@ -84,6 +84,10 @@
     <Content Include="test.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\TM.SintaksinisAnalizatorius.csproj">
+      <Project>{2661e37a-8d42-49ee-8835-ae1340c139af}</Project>
+      <Name>TM.SintaksinisAnalizatorius</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TM.LeksinisAnalizatorius\TM.LeksinisAnalizatorius.csproj">
       <Project>{8c6b2644-1386-4cc0-8a7e-01cb83a14a6a}</Project>
       <Name>TM.LeksinisAnalizatorius</Name>
