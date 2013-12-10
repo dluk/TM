@@ -18,7 +18,9 @@ namespace TM.SintaksinisAnalizatorius
 
         public void Analizuoti()
         {
-            new DeklaravimoAnal().Analyze(this, new Guid());
+            new DeklaravimoAnal().Analyze(this, Guid.Empty);
+            Indeksas++;
+            new ProgramAnalizatorius().Analyze(this, Guid.Empty);
         }
 
         public string PrintMedis()

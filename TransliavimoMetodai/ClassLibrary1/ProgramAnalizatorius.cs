@@ -9,9 +9,9 @@ namespace TM.SintaksinisAnalizatorius
 {
     internal class ProgramAnalizatorius
     {
-        public List<ILeksemuAnalizatorius> DeklaravimoLeksemos = new List<ILeksemuAnalizatorius>()
+        public List<ILeksemuAnalizatorius> ProgramosLeksemos = new List<ILeksemuAnalizatorius>()
         {
-            
+            new WhileAnalizatorius()
         };
 
 
@@ -25,11 +25,11 @@ namespace TM.SintaksinisAnalizatorius
 
             while (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "end")
             {
-                foreach (var deklaravimoLeksema in DeklaravimoLeksemos)
+                foreach (var programosLeksema in ProgramosLeksemos)
                 {
-                    if (deklaravimoLeksema.Leksema.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
+                    if (programosLeksema.Leksema.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
                     {
-                        deklaravimoLeksema.Analyze(analizatorius,
+                        programosLeksema.Analyze(analizatorius,
                             analizatorius.SintaksesMedis.Find(x => x.TevoId == TevoId).Id);
                         break;
                     }
@@ -65,7 +65,7 @@ namespace TM.SintaksinisAnalizatorius
     {
         public List<string> Leksema
         {
-            get { return new List<string>() {"Daugiau", "Maziau", "DaugiauLygu", "MaziauLyu"}; }
+            get { return new List<string>() {"Daugiau", "Maziau", "DaugiauLygu", "MaziauLygu"}; }
             set { }
         }
 
