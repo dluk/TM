@@ -11,7 +11,7 @@ namespace TM.SintaksinisAnalizatorius
     {
         public List<ILeksemuAnalizatorius> ProgramosLeksemos = new List<ILeksemuAnalizatorius>()
         {
-            new WhileAnalizatorius()
+            new ReiksmeAnalizatorius()
         };
 
 
@@ -27,7 +27,7 @@ namespace TM.SintaksinisAnalizatorius
             {
                 foreach (var programosLeksema in ProgramosLeksemos)
                 {
-                    if (programosLeksema.Leksema.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
+                    if (programosLeksema.Leksema.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas))
                     {
                         programosLeksema.Analyze(analizatorius,
                             programosBlokas.Id);
@@ -168,13 +168,31 @@ namespace TM.SintaksinisAnalizatorius
     {
         public List<string> Leksema
         {
-            get;
-            set;
+            get { return new List<string>() { "SveikasSkaicius", "DesimtainisSkaicius", "Identifikatorius"}; }
+            set { }
         }
 
         public Guid TevoId { get; set; }
         public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
         {
+           TevoId = tevoId;
+           var reiksme = new Objektas("reiksme", "", TevoId);
+           analizatorius.SintaksesMedis.Add(reiksme);
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "SveikasSkaicius")
+            {
+                analizatorius.SintaksesMedis.Add(new Objektas(
+                    "SveikasSkaicius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, reiksme.Id));
+            }
+            else if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "DesimtainisSkaicius")
+            {
+                analizatorius.SintaksesMedis.Add(new Objektas(
+                    "DesimtainisSkaicius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, reiksme.Id));
+            }
+            else if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "Identifikatorius")
+            {
+                new IndentifikatoriusAnalizatorius().Analyze(analizatorius, reiksme.Id);
+            }
+            analizatorius.Indeksas++;
             return "";
         }
     }
