@@ -230,7 +230,7 @@ namespace TM.SintaksinisAnalizatorius
             var israiska = new Objektas("Israiska", "", tevoId);
             analizatorius.SintaksesMedis.Add(israiska);
 
-            do
+            while (true)
             {
                 if (new[] {"+", "-"}.Contains(analizatorius.VarduLentele[analizatorius.Indeksas + 1].Reiksme))
                 {
@@ -244,15 +244,16 @@ namespace TM.SintaksinisAnalizatorius
                 }
                 if (new[] {"+", "-", "*", "/"}.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
                 {
-                    analizatorius.Indeksas +=1;
+                    analizatorius.SintaksesMedis.Add(new Objektas("Operatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, israiska.Id));
+                    analizatorius.Indeksas += 1;
                 }
                 else
                 {
                     break;
                 }
-            } while (true);
-            
-            
+            }
+
+
             return "";
         }
     }
