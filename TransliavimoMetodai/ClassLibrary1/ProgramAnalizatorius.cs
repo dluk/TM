@@ -20,8 +20,8 @@ namespace TM.SintaksinisAnalizatorius
 
         public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
         {
-            TevoId = tevoId;
-            analizatorius.SintaksesMedis.Add(new Objektas("ProgramosBlokas", "", TevoId));
+            var programosBlokas = new Objektas("ProgramosBlokas", "", TevoId);
+            analizatorius.SintaksesMedis.Add(programosBlokas);
 
             while (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "end")
             {
@@ -30,9 +30,15 @@ namespace TM.SintaksinisAnalizatorius
                     if (programosLeksema.Leksema.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
                     {
                         programosLeksema.Analyze(analizatorius,
-                            analizatorius.SintaksesMedis.Find(x => x.TevoId == TevoId).Id);
+                            programosBlokas.Id);
                         break;
                     }
+                }
+                if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "konstanta")
+                {
+                    new IsraiskaEiluteAnalizatorius().Analyze(analizatorius,
+                        programosBlokas.Id);
+                    
                 }
             }
 
@@ -172,4 +178,20 @@ namespace TM.SintaksinisAnalizatorius
             return "";
         }
     }
+
+    public class IsraiskaEiluteAnalizatorius : ILeksemuAnalizatorius
+    {
+        public List<string> Leksema
+        {
+            get;
+            set;
+        }
+
+        public Guid TevoId { get; set; }
+        public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
+        {
+            return "";
+        }
+    }
+    
 }
