@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProgramAnalizatorius.cs" />
     <Compile Include="LeksemuAnalizatorius.cs" />
     <Compile Include="Objektas.cs" />
     <Compile Include="SintaksinisAnalizatorius.cs" />

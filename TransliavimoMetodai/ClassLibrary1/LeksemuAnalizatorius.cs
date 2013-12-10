@@ -13,27 +13,6 @@ namespace TM.SintaksinisAnalizatorius
 
     }
 
-    //public class LeksemuAnalizatorius : ILeksemuAnalizatorius
-    //{
-    //    public List<string> Leksema { get; set; }
-
-    //    public List<LentelesLeksema> VarduLentele { get; set; }
-
-    //    public LeksemuAnalizatorius(List<LentelesLeksema> varduLentele)
-    //    {
-    //        this.VarduLentele = varduLentele;
-    //    }
-
-    //    public LeksemuAnalizatorius()
-    //    {
-    //    }
-
-    //    public string Analyze(int zodis)
-    //    {
-    //        return "";
-    //    }
-    //}
-
     public class DeklaravimoAnal : ILeksemuAnalizatorius
     {
 
@@ -108,6 +87,7 @@ namespace TM.SintaksinisAnalizatorius
                 throw new Exception("identifikatorius expected");
             }
             analizatorius.SintaksesMedis.Add(new Objektas("MasyvoIdentifikatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, masyvas.Id));
+            masyvas.Reiksme = analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme;
             analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
             {
@@ -131,6 +111,31 @@ namespace TM.SintaksinisAnalizatorius
 
         public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
         {
+            TevoId = tevoId;
+            var funkcija = new Objektas("FunkcijosDeklaravimas", "", TevoId);
+            analizatorius.SintaksesMedis.Add(funkcija);
+            analizatorius.Indeksas++;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas != "identifikatorius")
+            {
+                throw new Exception("identifikatorius expected");
+            }
+            analizatorius.SintaksesMedis.Add(new Objektas("FunkcijosIdentifikatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, funkcija.Id));
+            funkcija.Reiksme = analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme;
+            analizatorius.Indeksas++;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "returns")
+            {
+                throw new Exception("returns expected");
+            }
+            analizatorius.Indeksas++;
+            var tipasAnal = new TipasAnal().Analyze(analizatorius, funkcija.Id);
+            analizatorius.Indeksas++;
+            var paramAnal = new ParametruAnal().Analyze(analizatorius, funkcija.Id);
+            analizatorius.Indeksas++;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
+            {
+                throw new Exception("; expected");
+            }
+            analizatorius.Indeksas++;
             return "";
         }
 
@@ -159,6 +164,7 @@ namespace TM.SintaksinisAnalizatorius
                 throw new Exception("identifikatorius expected");
             }
             analizatorius.SintaksesMedis.Add(new Objektas("KintamojoIdentifikatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, kintamasis.Id));
+            kintamasis.Reiksme = analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme;
             analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
             {
@@ -185,7 +191,8 @@ namespace TM.SintaksinisAnalizatorius
             var index = Leksema.IndexOf(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme);
             if (index == -1)
             {
-                throw new Exception("nera tokio tipo nx");
+                throw new Exception("tipas expected" + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme +
+                                        " found");
             }
             else
             {
@@ -197,5 +204,51 @@ namespace TM.SintaksinisAnalizatorius
             return "";
             
         }
+    }
+
+    public class ParametruAnal : ILeksemuAnalizatorius
+    {
+        public List<string> Leksema { get; set; }
+        public Guid TevoId { get; set; }
+
+        public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
+        {
+            TevoId = tevoId;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "(")
+            {
+                throw new Exception("( expected");
+            }
+            analizatorius.Indeksas++;
+            while (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ")")
+            {
+                var parametras = new Objektas("ParametroDeklaravimas", "", tevoId);
+                analizatorius.SintaksesMedis.Add(parametras);
+                var tipasAnal = new TipasAnal().Analyze(analizatorius, parametras.Id);
+                analizatorius.Indeksas++;
+
+                if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas != "identifikatorius")
+                {
+                    throw new Exception("identifikatorius expected");
+                }
+                analizatorius.SintaksesMedis.Add(new Objektas("ParametroIdentifikatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, parametras.Id));
+                parametras.Reiksme = analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme;
+                analizatorius.Indeksas++;
+                if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ")")
+                {
+                    if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == ",")
+                    {
+                        analizatorius.Indeksas++;
+                    }
+                    else
+                    {
+                        throw new Exception(", expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme +
+                                            " found");
+                    }
+                }
+            }
+
+            return "";
+        }
+   
     }
 }
