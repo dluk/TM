@@ -28,8 +28,8 @@ namespace TM.SintaksinisAnalizatorius
             string rez = "";
             foreach (Objektas objektas in SintaksesMedis)
             {
-                rez += string.Format("Id: {0}, pav: {1}, reiksme {2}, tevs: {3}\r\n", objektas.Id, objektas.Tipas,
-                    objektas.Reiksme, objektas.TevoId);
+                rez += string.Format("Id: {0}, pav: {1}, reiksme {2}, tevs: {3}\r\n", objektas.Id.ToString().Substring(0,3), objektas.Tipas,
+                    objektas.Reiksme, objektas.TevoId.ToString().Substring(0, 3));
             }
             return rez;
         }
