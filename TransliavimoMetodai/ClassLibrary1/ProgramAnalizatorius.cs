@@ -11,7 +11,7 @@ namespace TM.SintaksinisAnalizatorius
     {
         public List<ILeksemuAnalizatorius> ProgramosLeksemos = new List<ILeksemuAnalizatorius>()
         {
-            new IsraiskaAnalizatorius()
+            new WhileAnalizatorius()
         };
 
 
@@ -35,7 +35,7 @@ namespace TM.SintaksinisAnalizatorius
                     }
                     else
                     {
-                        new IsraiskaAnalizatorius().Analyze(analizatorius, programosBlokas.Id);
+                        new WhileAnalizatorius().Analyze(analizatorius, programosBlokas.Id);
                     }
                 }
 
@@ -62,27 +62,18 @@ namespace TM.SintaksinisAnalizatorius
             var whileBlokas = new Objektas("WhileBlokas", "", tevoId);
             analizatorius.SintaksesMedis.Add(whileBlokas);
             analizatorius.Indeksas++;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "(")
+            {
+                new Exception("( expected");
+            }
+            new LogininisAnalizatorius().Analyze(analizatorius, whileBlokas.Id);
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ")")
+            {
+                new Exception(") expected");
+            }
             return "";
         }
     }
-
-    internal class LoginisAnalizatorius : ILeksemuAnalizatorius
-    {
-        public List<string> Leksema
-        {
-            get { return new List<string>() { "Daugiau", "Maziau", "DaugiauLygu", "MaziauLygu" }; }
-            set { }
-        }
-
-        public Guid TevoId { get; set; }
-
-        public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
-        {
-            return "";
-        }
-
-    }
-
     
 
     internal class IndentifikatoriusAnalizatorius : ILeksemuAnalizatorius
@@ -242,7 +233,7 @@ namespace TM.SintaksinisAnalizatorius
                 {
                     new TermasAnalizatorius().Analyze(analizatorius, israiska.Id);
                 }
-                if (new[] {"+", "-", "*", "/"}.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
+                if (new[] {"+", "-", "*", "/", "&"}.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
                 {
                     analizatorius.SintaksesMedis.Add(new Objektas("Operatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, israiska.Id));
                     analizatorius.Indeksas += 1;
@@ -287,4 +278,52 @@ namespace TM.SintaksinisAnalizatorius
         }
     }
 
+    public class LogininisAnalizatorius : ILeksemuAnalizatorius
+    {
+        public List<string> Leksema
+        {
+            get { return new List<string>() {}; }
+            set{}
+        }
+        public Guid TevoId { get; set; }
+
+        public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
+        {
+            var loginis = new Objektas("Loginis_reiskinys", "", tevoId);
+            analizatorius.SintaksesMedis.Add(loginis);
+
+            while (true)
+            {   
+                new IsraiskaAnalizatorius().Analyze(analizatorius, loginis.Id);
+                if (new[] { ">", "<", ">=", "<=", "!=", "=" }.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
+                {
+                    analizatorius.SintaksesMedis.Add(new Objektas("Loginis_operatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, loginis.Id));
+                    analizatorius.Indeksas += 1;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return "";
+
+        }
+
+    }
+
+    public class ForAnalizatorius : ILeksemuAnalizatorius
+    {
+        public List<string> Leksema
+        {
+            get { return new List<string>() {}; }
+            set { }
+        }
+         public Guid TevoId { get; set; }
+
+        public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
+        {
+            
+        }
+    }
 }
