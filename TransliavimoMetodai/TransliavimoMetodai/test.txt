@@ -1,5 +1,9 @@
 ﻿array string[3] eilutes;
 array string[3] eilutes;
-begin
-while(a>1);
-end
+function aa returns int(int a){
+	a=a*a;
+};
+{
+for(a=0, a<5, 1){
+};
+}

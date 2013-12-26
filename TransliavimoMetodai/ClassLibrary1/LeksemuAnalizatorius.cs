@@ -39,6 +39,12 @@ namespace TM.SintaksinisAnalizatorius
                     if (deklaravimoLeksema.Leksema.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
                     {
                         deklaravimoLeksema.Analyze(analizatorius, analizatorius.SintaksesMedis.Find(x=>x.TevoId == TevoId).Id);
+                        
+                        if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
+                        {
+                            throw new Exception("; expected");
+                        }
+                        analizatorius.Indeksas++;
                         break;
                     }
                 }
@@ -89,11 +95,7 @@ namespace TM.SintaksinisAnalizatorius
             analizatorius.SintaksesMedis.Add(new Objektas("MasyvoIdentifikatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, masyvas.Id));
             masyvas.Reiksme = analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme;
             analizatorius.Indeksas++;
-            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
-            {
-                throw new Exception("; expected");
-            }
-            analizatorius.Indeksas++;
+            
             return "";
 
         }
@@ -131,11 +133,8 @@ namespace TM.SintaksinisAnalizatorius
             analizatorius.Indeksas++;
             var paramAnal = new ParametruAnal().Analyze(analizatorius, funkcija.Id);
             analizatorius.Indeksas++;
-            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
-            {
-                throw new Exception("; expected");
-            }
-            analizatorius.Indeksas++;
+            
+            new BlokasAnalizatorius().Analyze(analizatorius, funkcija.Id);
             return "";
         }
 
@@ -166,11 +165,7 @@ namespace TM.SintaksinisAnalizatorius
             analizatorius.SintaksesMedis.Add(new Objektas("KintamojoIdentifikatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, kintamasis.Id));
             kintamasis.Reiksme = analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme;
             analizatorius.Indeksas++;
-            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
-            {
-                throw new Exception("; expected");
-            }
-            analizatorius.Indeksas++;
+            
             return "";
         }
 

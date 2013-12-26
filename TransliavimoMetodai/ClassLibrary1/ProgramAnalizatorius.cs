@@ -60,6 +60,39 @@ namespace TM.SintaksinisAnalizatorius
             return "";
         }
     }
+
+    internal class IfAnalizatorius : ILeksemuAnalizatorius
+    {
+        public List<string> Leksema
+        {
+            get { return new List<string>() { "if" }; }
+            set { }
+        }
+
+        public Guid TevoId { get; set; }
+
+        public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
+        {
+            TevoId = tevoId;
+            var whileBlokas = new Objektas("IfBlokas", "", tevoId);
+            analizatorius.SintaksesMedis.Add(whileBlokas);
+            analizatorius.Indeksas++;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "(")
+            {
+                throw new Exception("( expected");
+            }
+            analizatorius.Indeksas++;
+            new LogininisAnalizatorius().Analyze(analizatorius, whileBlokas.Id);
+            
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ")")
+            {
+                throw new Exception(") expected");
+            }
+            analizatorius.Indeksas++;
+            new BlokasAnalizatorius().Analyze(analizatorius, whileBlokas.Id);
+            return "";
+        }
+    }
     
     internal class IndentifikatoriusAnalizatorius : ILeksemuAnalizatorius
     {
@@ -277,7 +310,7 @@ namespace TM.SintaksinisAnalizatorius
         {
             var sakinys = new Objektas("Sakinys", "", tevoId);
             analizatorius.SintaksesMedis.Add(sakinys);
-
+            bool deklaravimas = false;
 
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "identifikatorius")
             {
@@ -291,10 +324,33 @@ namespace TM.SintaksinisAnalizatorius
             {
                 new ForAnalizatorius().Analyze(analizatorius, sakinys.Id);
             }
+            else if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == "if")
+            {
+                new IfAnalizatorius().Analyze(analizatorius, sakinys.Id);
+            }
             else
             {
-                throw new Exception("unexpected sakinys");
+                deklaravimas = false;
+                List<ILeksemuAnalizatorius> DeklaravimoLeksemos = new List<ILeksemuAnalizatorius>()
+                {
+                    new MasyvoDeklaravimoAnal(),
+                    new KintamojoDeklaravimoAnal()
+                };
+                foreach (var deklaravimoLeksema in DeklaravimoLeksemos)
+                {
+                    if (deklaravimoLeksema.Leksema.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
+                    {
+                        deklaravimoLeksema.Analyze(analizatorius, sakinys.Id);
+                        deklaravimas = true;
+                        break;
+                    }
+                }
+                if (deklaravimas == false)
+                {
+                    throw new Exception("unexpected sakinys");
+                }
             }
+            
             
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
             {
@@ -442,6 +498,7 @@ namespace TM.SintaksinisAnalizatorius
                 throw new Exception(") Expected");
             }
             analizatorius.Indeksas++;
+            new BlokasAnalizatorius().Analyze(analizatorius, foras.Id);
             return "";
         }
     }

@@ -11,7 +11,7 @@ namespace TM.SintaksinisAnalizatorius
     {
         private SintaksinisAnalizatorius Analizatorius;
         private System.IO.StreamWriter file;
-        private string pt = @"C:\Users\Gediminas\Desktop\WriteLines2.xml";
+        private string pt = @"C:\Users\Dainius\Desktop\WriteLines2.xml";
         public Printer(SintaksinisAnalizatorius analizatorius)
         {
             Analizatorius = analizatorius;
@@ -28,7 +28,7 @@ namespace TM.SintaksinisAnalizatorius
             }
             if (obj.Reiksme != "")
             {
-                System.IO.File.AppendAllText(pt, obj.Reiksme + "\r\n");
+                System.IO.File.AppendAllText(pt, obj.Reiksme.Replace("<", "&lt;").Replace(">", "&gt;") + "\r\n");
             }
             System.IO.File.AppendAllText(pt, "</" + obj.Tipas + ">\r\n");
                 Analizatorius.SintaksesMedis.Remove(obj);
