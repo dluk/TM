@@ -31,15 +31,19 @@ namespace TM.SintaksinisAnalizatorius
         {
             TevoId = tevoId;
             analizatorius.SintaksesMedis.Add(new Objektas("DeklaravimoBlokas", "", TevoId));
-            
+            bool rado = false;
+
             while (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "{")
             {
+                rado = false;
                 foreach (var deklaravimoLeksema in DeklaravimoLeksemos)
                 {
                     if (deklaravimoLeksema.Leksema.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
                     {
-                        deklaravimoLeksema.Analyze(analizatorius, analizatorius.SintaksesMedis.Find(x=>x.TevoId == TevoId).Id);
-                        
+                        rado = true;
+                        deklaravimoLeksema.Analyze(analizatorius,
+                            analizatorius.SintaksesMedis.Find(x => x.TevoId == TevoId).Id);
+
                         if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
                         {
                             throw new Exception("; expected");
@@ -47,6 +51,10 @@ namespace TM.SintaksinisAnalizatorius
                         analizatorius.Indeksas++;
                         break;
                     }
+                }
+                if (!rado)
+                {
+                    throw new Exception("unexpected declaration: " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme);
                 }
             }
                 

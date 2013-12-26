@@ -328,6 +328,15 @@ namespace TM.SintaksinisAnalizatorius
             {
                 new IfAnalizatorius().Analyze(analizatorius, sakinys.Id);
             }
+             else if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == "read" || analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == "print")
+            {
+                new IoAnalizatorius().Analyze(analizatorius, sakinys.Id);
+            }
+
+            else if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == "return")
+            {
+                new ReturnAnalizatorius().Analyze(analizatorius, sakinys.Id);
+            }
             else
             {
                 deklaravimas = false;
@@ -503,4 +512,51 @@ namespace TM.SintaksinisAnalizatorius
         }
     }
 
+    public class IoAnalizatorius : ILeksemuAnalizatorius
+    {
+        public List<string> Leksema
+        {
+            get { return new List<string>() { "read","print" }; }
+            set { }
+        }
+        public Guid TevoId { get; set; }
+
+        public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
+        {
+            var io = new Objektas("IO", "", tevoId);
+            analizatorius.SintaksesMedis.Add(io);
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == "print")
+            {
+                analizatorius.Indeksas++;
+                var output = new Objektas("output", "", io.Id);
+                new IsraiskaAnalizatorius().Analyze(analizatorius, output.Id);
+            }
+            else if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == "read")
+            {
+                analizatorius.Indeksas++;
+                var input = new Objektas("input", "", io.Id);
+                new IndentifikatoriusAnalizatorius().Analyze(analizatorius, input.Id);
+            }
+            return "";
+        }
+    }
+
+    public class ReturnAnalizatorius : ILeksemuAnalizatorius
+    {
+        public List<string> Leksema
+        {
+            get { return new List<string>() { "return"}; }
+            set { }
+        }
+        public Guid TevoId { get; set; }
+
+        public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
+        {
+            var returns = new Objektas("return", "", tevoId);
+            analizatorius.SintaksesMedis.Add(returns);
+            analizatorius.Indeksas ++;
+            new IsraiskaAnalizatorius().Analyze(analizatorius, returns.Id);
+            return "";
+        }
+    }
 }
