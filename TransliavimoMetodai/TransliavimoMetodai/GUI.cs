@@ -63,7 +63,15 @@ namespace TransliavimoMetodai
         private void analyzeSyntaxToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SintaksinisAnalizatorius sintaksinisAnalizatorius = new SintaksinisAnalizatorius(_leksinisAnalizatorius.VarduLentele);
-            sintaksinisAnalizatorius.Analizuoti();
+            try
+            {
+                sintaksinisAnalizatorius.Analizuoti();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
             SinAnalText.Text = sintaksinisAnalizatorius.PrintMedis();
         }
     }
