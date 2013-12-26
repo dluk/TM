@@ -54,7 +54,7 @@ namespace TM.SintaksinisAnalizatorius
                 }
                 if (!rado)
                 {
-                    throw new Exception("unexpected declaration: " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme);
+                    throw new Exception("incorrect declaration: " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme);
                 }
             }
                 

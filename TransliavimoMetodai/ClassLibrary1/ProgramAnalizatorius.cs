@@ -185,6 +185,16 @@ namespace TM.SintaksinisAnalizatorius
                 new IndentifikatoriusAnalizatorius().Analyze(analizatorius, reiksme.Id);
                 analizatorius.Indeksas--;
             }
+            else if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "konstanta")
+            {
+                var konstanta = new Objektas("konstanta", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme,
+                    reiksme.Id);
+                analizatorius.SintaksesMedis.Add(konstanta);
+            }
+            else
+            {
+                throw new Exception("incorrect reiksme: " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme);
+            }
             analizatorius.Indeksas++;
             return "";
         }

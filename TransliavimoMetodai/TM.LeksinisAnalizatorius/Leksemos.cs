@@ -17,7 +17,7 @@ namespace TM.LeksinisAnalizatorius
 
     public static class SystemKeywords
     {
-        public static List<string> Vardai = new List<string>() { "dec", "array", "string", "int", "return", "begin", "end", "function", "and", "or", "while", "if", "else", "forward", "for", "print", "read" };
+        public static List<string> Vardai = new List<string>() { "dec", "array", "string", "int", "return", "begin", "end", "function", "and", "or", "while", "if", "else", "forward", "for", "print", "read", "returns" };
     }
 
     #region skiriamieji
