@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TM.SintaksinisAnalizatorius
 {
     class Printer
     {
         private SintaksinisAnalizatorius Analizatorius;
-        private System.IO.StreamWriter file;
         private string pt = @"C:\Users\Dainius\Desktop\WriteLines2.xml";
         public Printer(SintaksinisAnalizatorius analizatorius)
         {
