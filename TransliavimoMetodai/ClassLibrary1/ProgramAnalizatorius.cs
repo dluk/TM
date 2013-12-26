@@ -20,7 +20,7 @@ namespace TM.SintaksinisAnalizatorius
 
         public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
         {
-            var programosBlokas = new Objektas("ProgramosBlokas", "", TevoId);
+            var programosBlokas = new Objektas("ProgramosBlokas", "", tevoId);
             analizatorius.SintaksesMedis.Add(programosBlokas);
 
             while (analizatorius.Indeksas < analizatorius.VarduLentele.Count && analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "end")
@@ -354,13 +354,17 @@ namespace TM.SintaksinisAnalizatorius
 
         public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
         {
-            var priskyrimas = new Objektas("Priskyrimas", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, tevoId);
+            var priskyrimas = new Objektas("Priskyrimas", "", tevoId);
+            var identifikatorius = new Objektas("Identifikatorius",
+                analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, priskyrimas.Id);
             analizatorius.SintaksesMedis.Add(priskyrimas);
+            analizatorius.SintaksesMedis.Add(identifikatorius);
             analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "=")
             {
                 throw new Exception("\"=\" expected, but " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
+            var operatorius = new Objektas("operatorius", "=", priskyrimas.Id);
             analizatorius.Indeksas++;
             new IsraiskaAnalizatorius().Analyze(analizatorius, priskyrimas.Id);
 

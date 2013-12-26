@@ -32,7 +32,7 @@ namespace TM.SintaksinisAnalizatorius
                 rez += string.Format("Id: {0}, pav: {1}, reiksme {2}, tevs: {3}\r\n", objektas.Id.ToString().Substring(0,3), objektas.Tipas,
                     objektas.Reiksme, objektas.TevoId.ToString().Substring(0, 3));
             }
-            new Printer(this).PrintTree(Guid.Empty, "");
+            new Printer(this).PrintTree(Guid.Empty);
             return rez;
         }
     }

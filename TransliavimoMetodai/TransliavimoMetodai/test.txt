@@ -1,5 +1,5 @@
 ﻿array string[3] eilutes;
 array string[3] eilutes;
 begin
-asd
+asd=a;
 end
