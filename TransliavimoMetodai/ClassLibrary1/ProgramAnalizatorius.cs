@@ -11,7 +11,7 @@ namespace TM.SintaksinisAnalizatorius
     {
         public List<ILeksemuAnalizatorius> ProgramosLeksemos = new List<ILeksemuAnalizatorius>()
         {
-            new WhileAnalizatorius()
+            new IsraiskaAnalizatorius()
         };
 
 
@@ -35,7 +35,7 @@ namespace TM.SintaksinisAnalizatorius
                     }
                     else
                     {
-                        new WhileAnalizatorius().Analyze(analizatorius, programosBlokas.Id);
+                        new IsraiskaAnalizatorius().Analyze(analizatorius, programosBlokas.Id);
                     }
                 }
 
@@ -323,7 +323,7 @@ namespace TM.SintaksinisAnalizatorius
 
         public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
         {
-            
+            return "";
         }
     }
 }
