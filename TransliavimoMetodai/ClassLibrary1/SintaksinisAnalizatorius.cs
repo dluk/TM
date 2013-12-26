@@ -12,15 +12,16 @@ namespace TM.SintaksinisAnalizatorius
         public int Indeksas = 0;
 
         public SintaksinisAnalizatorius(List<LentelesLeksema> varduLentele)
-        {
+        {   
             this.VarduLentele = varduLentele;
         }
 
         public void Analizuoti()
-        {
-            new DeklaravimoAnal().Analyze(this, Guid.Empty);
+        {   var obj = new Objektas("Program", "", Guid.Empty);
+            SintaksesMedis.Add(obj);
+            new DeklaravimoAnal().Analyze(this, obj.Id);
             Indeksas++;
-            new ProgramAnalizatorius().Analyze(this, Guid.Empty);
+            new ProgramAnalizatorius().Analyze(this, obj.Id);
         }
 
         public string PrintMedis()
@@ -31,7 +32,7 @@ namespace TM.SintaksinisAnalizatorius
                 rez += string.Format("Id: {0}, pav: {1}, reiksme {2}, tevs: {3}\r\n", objektas.Id.ToString().Substring(0,3), objektas.Tipas,
                     objektas.Reiksme, objektas.TevoId.ToString().Substring(0, 3));
             }
-            new Printer(this).PrintTree(Guid.Empty);
+            new Printer(this).PrintTree(Guid.Empty, "");
             return rez;
         }
     }
