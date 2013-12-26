@@ -287,6 +287,10 @@ namespace TM.SintaksinisAnalizatorius
             {
                 new WhileAnalizatorius().Analyze(analizatorius, sakinys.Id);
             }
+            else if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == "for")
+            {
+                new ForAnalizatorius().Analyze(analizatorius, sakinys.Id);
+            }
             else
             {
                 throw new Exception("unexpected sakinys");
@@ -401,13 +405,43 @@ namespace TM.SintaksinisAnalizatorius
     {
         public List<string> Leksema
         {
-            get { return new List<string>() { }; }
+            get { return new List<string>() {"for"}; }
             set { }
         }
         public Guid TevoId { get; set; }
 
         public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
         {
+            var foras = new Objektas("For_sakinys", "", tevoId);
+            analizatorius.SintaksesMedis.Add(foras);
+            analizatorius.Indeksas++;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "(")
+            {
+                throw new Exception("( Expected");
+            }
+            analizatorius.Indeksas++;
+            new PriskyrimoAnalizatorius().Analyze(analizatorius, foras.Id);
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ",")
+            {
+                throw  new Exception(", Expected");
+            }
+            analizatorius.Indeksas++;
+            new LogininisAnalizatorius().Analyze(analizatorius, foras.Id);
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ",")
+            {
+                throw new Exception(", Expected");
+            }
+            analizatorius.Indeksas++;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas != "SveikasSkaicius")
+            {
+                throw new Exception("SveikasSkaicius Expected");
+            }
+            analizatorius.Indeksas++;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ")")
+            {
+                throw new Exception(") Expected");
+            }
+            analizatorius.Indeksas++;
             return "";
         }
     }
