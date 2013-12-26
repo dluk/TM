@@ -32,7 +32,7 @@ namespace TM.SintaksinisAnalizatorius
             TevoId = tevoId;
             analizatorius.SintaksesMedis.Add(new Objektas("DeklaravimoBlokas", "", TevoId));
             
-            while (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "begin")
+            while (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "{")
             {
                 foreach (var deklaravimoLeksema in DeklaravimoLeksemos)
                 {

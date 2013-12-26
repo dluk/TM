@@ -50,7 +50,7 @@ namespace TM.LeksinisAnalizatorius
         
         public LeksinisAnalizatorius(string programa)
         {
-            Programa = programa;
+            Programa = programa.Replace('\t',' ');
         }
 
         public bool Analizuoti()

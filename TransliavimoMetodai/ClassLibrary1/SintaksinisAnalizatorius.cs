@@ -17,10 +17,11 @@ namespace TM.SintaksinisAnalizatorius
         }
 
         public void Analizuoti()
-        {   var obj = new Objektas("Program", "", Guid.Empty);
+        {   
+            var obj = new Objektas("Program", "", Guid.Empty);
             SintaksesMedis.Add(obj);
             new DeklaravimoAnal().Analyze(this, obj.Id);
-            Indeksas++;
+            
             new ProgramAnalizatorius().Analyze(this, obj.Id);
         }
 
