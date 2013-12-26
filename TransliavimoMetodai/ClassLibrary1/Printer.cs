@@ -11,7 +11,7 @@ namespace TM.SintaksinisAnalizatorius
     {
         private SintaksinisAnalizatorius Analizatorius;
         private System.IO.StreamWriter file;
-        private string pt = @"C:\Users\Dainius\Desktop\WriteLines2.xml";
+        private string pt = @"C:\Users\Gediminas\Desktop\WriteLines2.xml";
         public Printer(SintaksinisAnalizatorius analizatorius)
         {
             Analizatorius = analizatorius;
