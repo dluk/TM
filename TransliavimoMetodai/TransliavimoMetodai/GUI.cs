@@ -67,7 +67,7 @@ namespace TransliavimoMetodai
             {
                 sintaksinisAnalizatorius.Analizuoti();
             }
-            catch (Exception ex)
+            catch (SyntaxException ex)
             {
                 MessageBox.Show(ex.Message);
             }

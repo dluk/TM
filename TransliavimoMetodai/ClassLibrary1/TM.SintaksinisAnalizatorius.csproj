@@ -45,6 +45,7 @@
     <Compile Include="Objektas.cs" />
     <Compile Include="SintaksinisAnalizatorius.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TM.LeksinisAnalizatorius\TM.LeksinisAnalizatorius.csproj">

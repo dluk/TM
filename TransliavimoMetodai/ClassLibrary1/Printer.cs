@@ -6,7 +6,7 @@ namespace TM.SintaksinisAnalizatorius
     class Printer
     {
         private SintaksinisAnalizatorius Analizatorius;
-        private string pt = @"C:\Users\Gediminas\Desktop\WriteLines2.xml";
+        private string pt = @"C:\Users\Dainius\Desktop\WriteLines2.xml";
         public Printer(SintaksinisAnalizatorius analizatorius)
         {
             Analizatorius = analizatorius;
