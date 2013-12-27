@@ -114,21 +114,8 @@ namespace TM.SintaksinisAnalizatorius
             {
                 analizatorius.SintaksesMedis.Add(new Objektas("IdentifikatoriausTipas", "Masyvas", identifikatorius.Id));
                 analizatorius.Indeksas++;
-                if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "SveikasSkaicius")
-                {
-                    analizatorius.SintaksesMedis.Add(new Objektas("IeskomasElem",
-                        analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, identifikatorius.Id));
-
-                }
-                else if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "identifikatorius")
-                {
-                    new IndentifikatoriusAnalizatorius().Analyze(analizatorius, identifikatorius.Id);
-                }
-                else
-                {
-                    throw new Exception("Array reference expected, " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
-                }
-                analizatorius.Indeksas++;
+                new IsraiskaAnalizatorius().Analyze(analizatorius, identifikatorius.Id);
+                
                 if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "]")
                 {
                     throw new Exception("] expected, " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
@@ -393,11 +380,10 @@ namespace TM.SintaksinisAnalizatorius
         public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
         {
             var priskyrimas = new Objektas("Priskyrimas", "", tevoId);
-            var identifikatorius = new Objektas("Identifikatorius",
-                analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, priskyrimas.Id);
+            
             analizatorius.SintaksesMedis.Add(priskyrimas);
-            analizatorius.SintaksesMedis.Add(identifikatorius);
-            analizatorius.Indeksas++;
+            new IndentifikatoriusAnalizatorius().Analyze(analizatorius, priskyrimas.Id);
+            
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "=")
             {
                 throw new Exception("\"=\" expected, but " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
