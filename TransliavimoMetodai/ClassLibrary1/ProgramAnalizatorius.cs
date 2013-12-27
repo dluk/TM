@@ -46,14 +46,14 @@ namespace TM.SintaksinisAnalizatorius
             analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "(")
             {
-                throw new Exception("( expected");
+                throw new Exception("( expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             new LogininisAnalizatorius().Analyze(analizatorius, whileBlokas.Id);
             //analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ")")
             {
-                throw new Exception(") expected");
+                throw new Exception(") expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             new BlokasAnalizatorius().Analyze(analizatorius, whileBlokas.Id);
@@ -79,14 +79,14 @@ namespace TM.SintaksinisAnalizatorius
             analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "(")
             {
-                throw new Exception("( expected");
+                throw new Exception("( expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             new LogininisAnalizatorius().Analyze(analizatorius, whileBlokas.Id);
             
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ")")
             {
-                throw new Exception(") expected");
+                throw new Exception(") expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             new BlokasAnalizatorius().Analyze(analizatorius, whileBlokas.Id);
@@ -114,24 +114,11 @@ namespace TM.SintaksinisAnalizatorius
             {
                 analizatorius.SintaksesMedis.Add(new Objektas("IdentifikatoriausTipas", "Masyvas", identifikatorius.Id));
                 analizatorius.Indeksas++;
-                if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "SveikasSkaicius")
-                {
-                    analizatorius.SintaksesMedis.Add(new Objektas("IeskomasElem",
-                        analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, identifikatorius.Id));
-
-                }
-                else if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "identifikatorius")
-                {
-                    new IndentifikatoriusAnalizatorius().Analyze(analizatorius, identifikatorius.Id);
-                }
-                else
-                {
-                    throw new Exception("Array reference expected," + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
-                }
-                analizatorius.Indeksas++;
+                new IsraiskaAnalizatorius().Analyze(analizatorius, identifikatorius.Id);
+                
                 if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "]")
                 {
-                    throw new Exception("] expected," + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
+                    throw new Exception("] expected, " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
                 }
                 analizatorius.Indeksas++;
             }
@@ -184,6 +171,16 @@ namespace TM.SintaksinisAnalizatorius
             {
                 new IndentifikatoriusAnalizatorius().Analyze(analizatorius, reiksme.Id);
                 analizatorius.Indeksas--;
+            }
+            else if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas == "konstanta")
+            {
+                var konstanta = new Objektas("konstanta", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme,
+                    reiksme.Id);
+                analizatorius.SintaksesMedis.Add(konstanta);
+            }
+            else
+            {
+                throw new Exception("incorrect reiksme: " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme);
             }
             analizatorius.Indeksas++;
             return "";
@@ -359,14 +356,14 @@ namespace TM.SintaksinisAnalizatorius
                 }
                 if (deklaravimas == false)
                 {
-                    throw new Exception("unexpected sakinys");
+                    throw new Exception("unexpected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme);
                 }
             }
             
             
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
             {
-                throw new Exception("\";\" expected");
+                throw new Exception("\";\" expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
 
@@ -386,11 +383,10 @@ namespace TM.SintaksinisAnalizatorius
         public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
         {
             var priskyrimas = new Objektas("Priskyrimas", "", tevoId);
-            var identifikatorius = new Objektas("Identifikatorius",
-                analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, priskyrimas.Id);
+            
             analizatorius.SintaksesMedis.Add(priskyrimas);
-            analizatorius.SintaksesMedis.Add(identifikatorius);
-            analizatorius.Indeksas++;
+            new IndentifikatoriusAnalizatorius().Analyze(analizatorius, priskyrimas.Id);
+            
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "=")
             {
                 throw new Exception("\"=\" expected, but " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
@@ -419,7 +415,7 @@ namespace TM.SintaksinisAnalizatorius
             analizatorius.SintaksesMedis.Add(blokas);
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "{")
             {
-                throw new Exception("\"{\" expected");
+                throw new Exception("\"{\" expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             
@@ -485,29 +481,29 @@ namespace TM.SintaksinisAnalizatorius
             analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != "(")
             {
-                throw new Exception("( Expected");
+                throw new Exception("( Expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             new PriskyrimoAnalizatorius().Analyze(analizatorius, foras.Id);
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ",")
             {
-                throw  new Exception(", Expected");
+                throw new Exception(", Expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             new LogininisAnalizatorius().Analyze(analizatorius, foras.Id);
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ",")
             {
-                throw new Exception(", Expected");
+                throw new Exception(", Expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas != "SveikasSkaicius")
             {
-                throw new Exception("SveikasSkaicius Expected");
+                throw new Exception("SveikasSkaicius Expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ")")
             {
-                throw new Exception(") Expected");
+                throw new Exception(") Expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             new BlokasAnalizatorius().Analyze(analizatorius, foras.Id);
