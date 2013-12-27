@@ -1,14 +1,4 @@
 ﻿array string[3] eilutes;
-eilutes[0] = “abcd”;
-read eilutes[1];
-function konkatenacija returns string(string a, string b)
-{
-   string rez;
-   rez = a & b;
-   return rez;
-};
-eilutes[2] = konkatenacija(eilutes[0], eilutes[1]);
-print eilutes[2];
 function faktorialas returns int(int skaicius)
 {
    int i;
@@ -17,9 +7,20 @@ function faktorialas returns int(int skaicius)
    for(i = 2; i<=skaicius; 1)
    {
       rez = rez * i;
-   }
+   };
    return rez;
+};
+function konkatenacija returns string(string a, string b)
+{
+   string rez;
+   rez = a & b;
+   return rez;
+};
+{
+   read eilutes[1];
+   eilutes[2] = konkatenacija(eilutes[0], eilutes[1]);
+   print eilutes[2];
+   int sk;
+   sk = faktorialas(5);
+   print sk;
 }
-int sk;
-sk = faktorialas(5);
-print sk;
