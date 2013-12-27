@@ -132,10 +132,15 @@ namespace TM.SintaksinisAnalizatorius
 
                     var parametras = new Objektas("Parametras", "", identifikatorius.Id);
                     analizatorius.SintaksesMedis.Add(parametras);
-                    new ReiksmeAnalizatorius().Analyze(analizatorius, parametras.Id);
+                    new IsraiskaAnalizatorius().Analyze(analizatorius, parametras.Id);
 
                     if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == ",")
                         analizatorius.Indeksas++;
+                    //else if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == ",")
+                    //{
+                    //    if (analizatorius.VarduLentele[analizatorius.Indeksas + 1].Reiksme == ")" || analizatorius.VarduLentele[analizatorius.Indeksas + 1].Reiksme == ",")
+                    //    throw new SyntaxException("Parameter cannot be empty");
+                    //}
 
                 }
                 analizatorius.Indeksas++;
@@ -486,15 +491,15 @@ namespace TM.SintaksinisAnalizatorius
             }
             analizatorius.Indeksas++;
             new PriskyrimoAnalizatorius().Analyze(analizatorius, foras.Id);
-            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ",")
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
             {
-                throw new SyntaxException(", Expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
+                throw new SyntaxException("; Expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             new LogininisAnalizatorius().Analyze(analizatorius, foras.Id);
-            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ",")
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ";")
             {
-                throw new SyntaxException(", Expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
+                throw new SyntaxException("; Expected " + analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme + " found");
             }
             analizatorius.Indeksas++;
             if (analizatorius.VarduLentele[analizatorius.Indeksas].Pavadinimas != "SveikasSkaicius")

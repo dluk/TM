@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransliavimoMetodai", "Tran
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TM.LeksinisAnalizatorius", "TM.LeksinisAnalizatorius\TM.LeksinisAnalizatorius.csproj", "{8C6B2644-1386-4CC0-8A7E-01CB83A14A6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TM.SintaksinisAnalizatorius", "ClassLibrary1\TM.SintaksinisAnalizatorius.csproj", "{2661E37A-8D42-49EE-8835-AE1340C139AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TM.SintaksinisAnalizatorius", "TM.SintaksinisAnalizatorius\TM.SintaksinisAnalizatorius.csproj", "{2661E37A-8D42-49EE-8835-AE1340C139AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

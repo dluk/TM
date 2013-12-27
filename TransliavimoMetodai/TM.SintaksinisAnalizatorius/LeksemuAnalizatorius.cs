@@ -241,6 +241,11 @@ namespace TM.SintaksinisAnalizatorius
                     if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == ",")
                     {
                         analizatorius.Indeksas++;
+                        if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == "," ||
+                            analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == ")")
+                        {
+                            throw new SyntaxException("Parameter cannot be empty");
+                        }
                     }
                     else
                     {
