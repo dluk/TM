@@ -241,19 +241,22 @@ namespace TM.SintaksinisAnalizatorius
 
             while (true)
             {
-                if (new[] { "+", "-" }.Contains(analizatorius.VarduLentele[analizatorius.Indeksas + 1].Reiksme))
+                if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == "(")
+                {
+                    new SkliaustuAnalizatorius().Analyze(analizatorius, israiska.Id);
+                }
+                else if (new[] { "+", "-" }.Contains(analizatorius.VarduLentele[analizatorius.Indeksas + 1].Reiksme))
                 {
 
                     var israiska2 = new Objektas("Israiska", "", israiska.Id);
                     analizatorius.SintaksesMedis.Add(israiska2);
                     new TermasAnalizatorius().Analyze(analizatorius, israiska2.Id);
 
-                }
-                else
+                }else
                 {
                     new TermasAnalizatorius().Analyze(analizatorius, israiska.Id);
                 }
-                if (new[] { "+", "-", "*", "/", "&" }.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
+                if (new[] { "+", "-", "*", "/", "&", "(" }.Contains(analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme))
                 {
                     var operatorius = new Objektas("operatorius", analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme, israiska.Id);
                     analizatorius.SintaksesMedis.Add(operatorius);
@@ -556,6 +559,37 @@ namespace TM.SintaksinisAnalizatorius
             analizatorius.SintaksesMedis.Add(returns);
             analizatorius.Indeksas ++;
             new IsraiskaAnalizatorius().Analyze(analizatorius, returns.Id);
+            return "";
+        }
+    }
+
+    public class SkliaustuAnalizatorius : ILeksemuAnalizatorius
+    {
+        public List<string> Leksema
+        {
+            get { return new List<string>() {"("}; }
+            set { }
+        }
+
+        public Guid TevoId { get; set; }
+
+        public string Analyze(SintaksinisAnalizatorius analizatorius, Guid tevoId)
+        {
+            var termas = new Objektas("Termas", "", tevoId);
+            analizatorius.SintaksesMedis.Add(termas);
+            var daugiklis = new Objektas("Daugiklis", "", termas.Id);
+            analizatorius.SintaksesMedis.Add(daugiklis);
+            analizatorius.Indeksas++;
+            if (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme == ")")
+            {
+                throw new Exception("Israiska expected");
+            }
+            while (analizatorius.VarduLentele[analizatorius.Indeksas].Reiksme != ")")
+            {
+                new IsraiskaAnalizatorius().Analyze(analizatorius, daugiklis.Id);
+            }
+            analizatorius.Indeksas++;
+
             return "";
         }
     }
